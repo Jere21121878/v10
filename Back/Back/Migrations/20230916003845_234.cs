@@ -4,10 +4,32 @@
 
 namespace Back.Migrations
 {
-    public partial class _255 : Migration
+    public partial class _234 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Herramientas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Uso = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Proteccion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MedidaHerra = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Riegos = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MedidaUso = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Antesde = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Notas = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Tipo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Herramientas", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Quimicos",
                 columns: table => new
@@ -40,6 +62,9 @@ namespace Back.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Herramientas");
+
             migrationBuilder.DropTable(
                 name: "Quimicos");
         }

@@ -29,6 +29,9 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 
 builder.Services.AddScoped<IQuimicoRepository, QuimicoRepository>();
+builder.Services.AddScoped<IHerramientaRepository, HerramientaRepository>();
+builder.Services.AddScoped<IHistorialRepository, HistorialRepository>();
+
 
 
 var app = builder.Build();

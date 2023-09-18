@@ -120,9 +120,9 @@ namespace Back.Controllers
                     return BadRequest();
                 }
 
-                var mascotaItem = await _quimicoRepository.GetQuimico(Id);
+                var quimicoItem = await _quimicoRepository.GetQuimico(Id);
 
-                if (mascotaItem == null)
+                if (quimicoItem == null)
                 {
                     return NotFound();
                 }

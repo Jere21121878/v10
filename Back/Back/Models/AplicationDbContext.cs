@@ -10,5 +10,9 @@ namespace Back.Models
         }
 
         public DbSet<Quimico> Quimicos { get; set; }
+        public DbSet<Herramienta> Herramientas { get; set; }
+
+        public DbSet<Historial> Historials { get; set; }
+
     }
 }
