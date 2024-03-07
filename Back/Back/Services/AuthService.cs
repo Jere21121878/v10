@@ -23,11 +23,11 @@ namespace Back.Services
           
 
         }
-       
-    
-    public async Task<(int, string)> Registration(RegistrationModel model)
+
+
+        public async Task<(int, string)> Registration(RegistrationModel model)
         {
-            string role;
+            string role = ""; // Asignación predeterminada
 
             // Obtener el primer carácter del email
             var firstChar = model.Email.FirstOrDefault();
@@ -40,25 +40,32 @@ namespace Back.Services
             {
                 role = UserRoles.Licenciado;
             }
-            else
+            else if (firstChar == 'A' || firstChar == 'a') 
             {
-                role = UserRoles.User;
+                role = UserRoles.Admin;
             }
 
-            var userExists = await userManager.FindByNameAsync(model.Username);
+            if (string.IsNullOrEmpty(role)) 
+            {
+                return (0, "Invalid role");
+            }
+
+            var userExists = await userManager.FindByNameAsync(model.Email);
             if (userExists != null)
                 return (0, "User already exists");
 
             ApplicationUser user = new ApplicationUser()
             {
+                UserName = model.Email,
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username,
                 Name = model.Name,
                 Apellido = model.Apellido,
                 Tsuperior = model.Tsuperior,
                 Tinferior = model.Tinferior,
-                Acargo = model.Acargo
+                Acargo = model.Acargo,
+                EmpresaId = model.EmpresaId,
+                EmpleadorId = model.EmpleadorId,
             };
 
             var createUserResult = await userManager.CreateAsync(user, model.Password);
@@ -76,7 +83,7 @@ namespace Back.Services
 
         public async Task<(int, string, string)> Login(LoginModel model)
         {
-            var user = await userManager.FindByNameAsync(model.Username);
+            var user = await userManager.FindByNameAsync(model.Email);
             if (user == null)
                 return (0, "Invalid username", null);
             if (!await userManager.CheckPasswordAsync(user, model.Password))
@@ -85,7 +92,7 @@ namespace Back.Services
             var userRoles = await userManager.GetRolesAsync(user);
             var authClaims = new List<Claim>
     {
-        new Claim(ClaimTypes.Name, user.UserName),
+        new Claim(ClaimTypes.Name, user.Email),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
     };
 

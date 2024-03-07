@@ -45,7 +45,6 @@ namespace Back.Models.Repository
 
             if (planoItem != null)
             {
-                planoItem.Archivo = plano.Archivo;
                 planoItem.Nombre = plano.Nombre;
 
 

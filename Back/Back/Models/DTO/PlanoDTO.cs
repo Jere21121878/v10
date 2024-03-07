@@ -6,7 +6,8 @@
 
         public string Nombre { get; set; }
 
+        public FotoDTO Foto { get; set; }
 
-        public byte Archivo { get; set; }
+        public int EmpresaId { get; set; }
     }
 }

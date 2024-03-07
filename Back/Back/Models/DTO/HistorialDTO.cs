@@ -21,6 +21,7 @@
         public string Sect { get; set; }
 
         public DateTime Fecha { get; set; }
+        public int EmpresaId { get; set; }
 
     }
 }

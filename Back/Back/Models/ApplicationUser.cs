@@ -15,15 +15,16 @@ namespace Back.Models
 
        
         public string Tsuperior { get; set; }
+        public string? Acargo { get; set; }
 
-    
+
         public string Tinferior { get; set; }
 
-       
-        
+        public int? EmpleadorId { get; set; }
 
-        
-        public string Acargo { get; set; }
+        public int? EmpresaId { get; set; }
+
+
 
 
 

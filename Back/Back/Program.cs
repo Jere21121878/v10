@@ -68,7 +68,11 @@ builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddScoped<IQuimicoRepository, QuimicoRepository>();
 builder.Services.AddScoped<IHerramientaRepository, HerramientaRepository>();
 builder.Services.AddScoped<IHistorialRepository, HistorialRepository>();
+builder.Services.AddScoped<IEmpresaRepository, EmpresaRepository>();
+builder.Services.AddScoped<IEmpleadorRepository, EmpleadorRepository>();
+builder.Services.AddScoped<IFotoRepository, FotoRepository>();
 
+builder.Services.AddScoped<IPlanoRepository, PlanoRepository>();
 
 
 var app = builder.Build();

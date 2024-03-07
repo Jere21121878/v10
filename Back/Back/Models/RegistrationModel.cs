@@ -4,8 +4,6 @@ namespace Back.Models
 {
     public class RegistrationModel
     {
-        [Required(ErrorMessage = "User Name is required")]
-        public string Username { get; set; }
 
         [EmailAddress]
         [Required(ErrorMessage = "Email is required")]
@@ -25,6 +23,9 @@ namespace Back.Models
 
 
       
-        public string Acargo { get; set; }
+        public string? Acargo { get; set; }
+        public int? EmpresaId { get; set; }
+        public int? EmpleadorId { get; set; }
+
     }
 }

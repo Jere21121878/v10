@@ -4,6 +4,7 @@ using Back.Models.Repository;
 using Back.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Back.Controllers
 {
@@ -15,11 +16,14 @@ namespace Back.Controllers
 
         private readonly IMapper _mapper;
         private readonly IHistorialRepository _historialRepository;
+        private readonly AplicationDbContext _context;
 
-        public HistorialController(IMapper mapper, IHistorialRepository historialRepository)
+        public HistorialController(IMapper mapper, IHistorialRepository historialRepository, AplicationDbContext context)
         {
             _mapper = mapper;
             _historialRepository = historialRepository;
+            _context = context;
+
         }
 
         [HttpGet]
@@ -138,6 +142,24 @@ namespace Back.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("empresa/{empresaId}")]
+        public async Task<ActionResult<IEnumerable<Historial>>> GetHistorialsByEmpresaId(int empresaId)
+        {
+            if (empresaId <= 0)
+            {
+                return BadRequest("El parámetro 'empleadorId' es inválido.");
+            }
+
+            var historials = await _context.Historials.Where(a => a.EmpresaId == empresaId).ToListAsync();
+
+            if (historials == null || historials.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return historials;
+        }
+
 
     }
 }

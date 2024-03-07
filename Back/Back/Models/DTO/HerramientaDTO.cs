@@ -25,6 +25,7 @@
                public string Notas { get; set; }
         public string Tipo { get; set; }
 
+        public FotoDTO Foto { get; set; }
 
     }
 }

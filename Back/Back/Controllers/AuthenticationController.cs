@@ -45,13 +45,14 @@ namespace Back.Controllers
                 if (status == 0)
                     return BadRequest(message);
 
-                var user = await _userManager.FindByNameAsync(model.Username);
+                var user = await _userManager.FindByNameAsync(model.Email);
                 var userId = user.Id;
                 var name = user.Name;
                 var apellido = user.Apellido;
                 var tsuperior = user.Tsuperior;
                 var tinferior = user.Tinferior;
-                var acargo = user.Acargo;
+                var empresaId = user.EmpresaId;
+                var empleadorId = user.EmpleadorId;
 
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes("ByYM000OLlMQG6VVVp1OH7Xzyr7gHuw1qvUC5dcGt3SNM");
@@ -70,7 +71,7 @@ namespace Back.Controllers
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 var tokenString = tokenHandler.WriteToken(token);
 
-                return Ok(new { userId, role, name, apellido, tsuperior, tinferior, acargo, token = tokenString });
+                return Ok(new { userId, role, empleadorId, token = tokenString });
             }
             catch (Exception ex)
             {
@@ -142,16 +143,19 @@ namespace Back.Controllers
                     return BadRequest(message);
                 }
 
-                var user = await _userManager.FindByNameAsync(model.Username);
+                var user = await _userManager.FindByNameAsync(model.Email);
                 var userId = user.Id;
 
-                var name = model.Name; // Nombre de usuario
+                var name = model.Name; 
                 var apellido = model.Apellido;
                 var tsuperior = model.Tsuperior;
                 var tinferior = model.Tinferior;
+                var empresaId = model.EmpresaId;
+                var empleadorId = model.EmpleadorId;
+
                 var acargo = model.Acargo;
 
-                return Ok(new { userId, name, apellido, tsuperior, tinferior, acargo });
+                return Ok(new { userId, name, apellido, tsuperior, tinferior, empleadorId });
             }
             catch (Exception ex)
             {
@@ -175,9 +179,8 @@ namespace Back.Controllers
                 var apellido = user.Apellido;
                 var tsuperior = user.Tsuperior;
                 var tinferior = user.Tinferior;
-                var acargo = user.Acargo;
 
-                return Ok(new { userId, name, apellido, tsuperior, tinferior, acargo });
+                return Ok(new { userId, name, apellido, tsuperior, tinferior });
             }
             catch (Exception ex)
             {

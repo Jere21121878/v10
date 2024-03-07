@@ -20,6 +20,10 @@ namespace Back.Models
         public DbSet<Plano> Planos { get; set; }
         public DbSet<Historial> Historials { get; set; }
         public DbSet<Ats> Atss { get; set; }
+        public DbSet<Empleador> Empleadors { get; set; }
+        public DbSet<Empresa> Empresas { get; set; }
+        public DbSet<Emergencia> Emergencias { get; set; }
+        public DbSet<Foto> Fotos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -120,7 +124,15 @@ namespace Back.Models
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
             {
                 Name = "Licenciado",
-                NormalizedName = "Licenciado",
+                NormalizedName = "LICENCIADO",
+                Id = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+
+            });
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Name = "Admin",
+                NormalizedName = "ADMIN",
                 Id = Guid.NewGuid().ToString(),
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
 

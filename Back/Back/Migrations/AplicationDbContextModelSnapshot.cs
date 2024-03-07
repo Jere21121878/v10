@@ -28,7 +28,6 @@ namespace Back.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Acargo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("AccessFailedCount")
@@ -48,6 +47,12 @@ namespace Back.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("EmpleadorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EmpresaId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -174,6 +179,110 @@ namespace Back.Migrations
                     b.ToTable("Atss");
                 });
 
+            modelBuilder.Entity("Back.Models.Emergencia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Emergencias");
+                });
+
+            modelBuilder.Entity("Back.Models.Empleador", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Empleadors");
+                });
+
+            modelBuilder.Entity("Back.Models.Empresa", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Direccion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmpleadorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Empresas");
+                });
+
+            modelBuilder.Entity("Back.Models.Foto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("EmpresaId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HerramientaId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LicenciadoId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreFo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlanoId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuimicoId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TecnicoId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Fotos");
+                });
+
             modelBuilder.Entity("Back.Models.Herramienta", b =>
                 {
                     b.Property<int>("Id")
@@ -251,6 +360,9 @@ namespace Back.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
@@ -308,8 +420,8 @@ namespace Back.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<byte>("Archivo")
-                        .HasColumnType("tinyint");
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -427,17 +539,24 @@ namespace Back.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0b071376-d6f8-498e-9cc0-71b4525c4398",
-                            ConcurrencyStamp = "fcfc8c0e-f238-4ed2-a7ec-89345cb41e3a",
+                            Id = "3a38560b-fa6f-4d3b-b4b7-b2834272af8a",
+                            ConcurrencyStamp = "2cb52d4c-47ad-4dc6-94db-3c496a2efe56",
                             Name = "Tecnico",
                             NormalizedName = "TECNICO"
                         },
                         new
                         {
-                            Id = "0fabb70b-ffd0-4cf0-81f6-de570d50ed04",
-                            ConcurrencyStamp = "c41954a5-a237-4fae-8957-df32834e8ce0",
+                            Id = "5d11a02c-6fcb-4c68-b861-5914f571f341",
+                            ConcurrencyStamp = "82856e29-e7aa-479e-9151-bbfdfe497684",
                             Name = "Licenciado",
-                            NormalizedName = "Licenciado"
+                            NormalizedName = "LICENCIADO"
+                        },
+                        new
+                        {
+                            Id = "36e576fb-a4ac-4eef-b952-e3b789c5682c",
+                            ConcurrencyStamp = "4fce1bbd-254c-47b2-8659-8f9674fb753d",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         });
                 });
 

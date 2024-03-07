@@ -22,7 +22,7 @@
 
         public DateTime Fecha { get; set;}
 
-
+        public int EmpresaId { get; set; }
 
 
 

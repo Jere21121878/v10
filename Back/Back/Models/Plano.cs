@@ -7,9 +7,8 @@
         public string Nombre { get; set; }
 
 
-        public byte Archivo { get; set; }
 
-
+        public int EmpresaId { get; set; }
 
     }
 }

@@ -39,7 +39,8 @@
 
         public string Notas { get; set; }
 
-      
+        public FotoDTO Foto { get; set; }
+
 
 
 

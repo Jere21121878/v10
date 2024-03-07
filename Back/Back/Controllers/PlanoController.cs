@@ -4,6 +4,7 @@ using Back.Models.Repository;
 using Back.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Back.Controllers
 {
@@ -11,15 +12,18 @@ namespace Back.Controllers
     [ApiController]
     public class PlanoController : ControllerBase
     {
+
         private readonly IMapper _mapper;
         private readonly IPlanoRepository _planoRepository;
+        private readonly AplicationDbContext _context;
 
-        public PlanoController(IMapper mapper, IPlanoRepository planoRepository)
+        public PlanoController(IMapper mapper, IPlanoRepository planoRepository, AplicationDbContext context)
         {
             _mapper = mapper;
             _planoRepository = planoRepository;
-        }
+            _context = context;
 
+        }
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -86,20 +90,29 @@ namespace Back.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(PlanoDTO planoDto)
+        public async Task<ActionResult<Plano>> CreateEmpresa([FromForm] Plano plano, List<IFormFile> files)
         {
             try
             {
-                var plano = _mapper.Map<Plano>(planoDto);
+                _context.Planos.Add(plano);
+                await _context.SaveChangesAsync(); // Guardar el local primero
 
-
-
-                plano = await _planoRepository.AddPlano(plano);
-
-                var planoItemDto = _mapper.Map<PlanoDTO>(plano);
-
-                return CreatedAtAction("Get", new { Id = planoItemDto.Id }, planoItemDto);
-
+                foreach (var file in files)
+                {
+                    using (var stream = new System.IO.MemoryStream())
+                    {
+                        await file.CopyToAsync(stream);
+                        var foto = new Foto
+                        {
+                            NombreFo = file.FileName,
+                            Data = stream.ToArray(),
+                            PlanoId = plano.Id.ToString()
+                        };
+                        _context.Fotos.Add(foto);
+                    }
+                }
+                await _context.SaveChangesAsync(); // Guardar las fotos
+                return CreatedAtAction(nameof(Get), new { id = plano.Id }, plano);
             }
             catch (Exception ex)
             {
@@ -136,5 +149,23 @@ namespace Back.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("empresa/{empresaId}")]
+        public async Task<ActionResult<IEnumerable<Plano>>> GetPlanossByEmpresaId(int empresaId)
+        {
+            if (empresaId <= 0)
+            {
+                return BadRequest("El parámetro 'EmpresaId' es inválido.");
+            }
+
+            var planos = await _context.Planos.Where(a => a.EmpresaId == empresaId).ToListAsync();
+
+            if (planos == null || planos.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return planos;
+        }
+
     }
 }

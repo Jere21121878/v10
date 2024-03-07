@@ -14,7 +14,7 @@ namespace Back.Models
         ///// </summary>
         public const string Licenciado = "Licenciado";
         //public const string Admin = "Admin";
-        public const string User = "User";
+        public const string Admin = "Admin";
 
     }
 }
